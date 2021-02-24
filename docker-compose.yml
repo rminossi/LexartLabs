@@ -12,6 +12,8 @@ services:
     environment:
       - "DB_HOST=database"
       - "REDIS_HOST=cache"
+    networks:
+      - app-network
 
   # nginx
   web:
@@ -30,6 +32,8 @@ services:
     - app
     depends_on:
       - app
+    networks:
+      - app-network
   
   # mysql
   database:
@@ -51,3 +55,8 @@ services:
 
 volumes:
   dbdata:
+
+networks:
+    my-network:
+        aliases:
+            - app
