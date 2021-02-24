@@ -1,6 +1,6 @@
 FROM nginx:1.10-alpine
 
-ADD dev/vhost.conf /etc/nginx/conf.d/default.conf
+ADD vhost.conf /etc/nginx/conf.d/default.conf
 
 
 COPY public /var/www/public
