@@ -1,62 +1,65 @@
-version: '2'
+version: '3'
 services:
-  # laravel
+
+  #PHP Service
   app:
-    container_name: app
     build:
-      context: ./
+      context: .
       dockerfile: app.dockerfile
-    volumes:
-      - ./storage:/var/www/storage
-    env_file: '.env.prod'
-    environment:
-      - "DB_HOST=database"
-      - "REDIS_HOST=cache"
-    networks:
-      - app-network
-
-  # nginx
-  web:
+    container_name: app
+    restart: unless-stopped
     tty: true
-    container_name: nginx
-    build:
-      context: ./
-      dockerfile: web.dockerfile
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
     volumes:
-      - ./storage/logs/:/var/log/nginx
-      - ./conf/nginx:/etc/nginx/conf.d
-      - ..:/var/www/html
-    ports:
-      - 8990:80
-    links:
-    - app
-    depends_on:
-      - app
+      - ./:/var/www
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
-  
-  # mysql
-  database:
-    container_name: mysql
-    image: mysql:5.7
-    volumes:
-      - dbdata:/var/lib/mysql
-    environment:
-      - "MYSQL_DATABASE=LexartLabs"
-      - "MYSQL_USER=phpmyadmin"
-      - "MYSQL_PASSWORD=phpmyadmin"
-      - "MYSQL_ROOT_PASSWORD=phpmyadmin"
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
     ports:
-      - 8991:3306
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
 
-  # redis
-  cache:
-    image: redis:3.0-alpine
+  #MySQL Service
+  db:
+    image: mysql:5.7.22
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: LexartLabs
+      MYSQL_USER: phpmyadmin
+      MYSQL_PASSWORD: phpmyadmin
+      MYSQL_ROOT_PASSWORD: phpmyadmin
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql/
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - app-network
 
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+#Volumes
 volumes:
   dbdata:
-
-networks:
-    app-network:
-        aliases:
-            - app
+    driver: local
