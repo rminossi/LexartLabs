@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'asset_url' => 'https://http://lexartlabs.herokuapp.com/',
+    'asset_url' => 'https://lexartlabs.herokuapp.com/',
 
     /*
     |--------------------------------------------------------------------------
