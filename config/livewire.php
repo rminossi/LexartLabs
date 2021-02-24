@@ -38,7 +38,7 @@ return [
     | the view returned by SomeComponent will be wrapped in "layouts.app"
     |
     */
-    
+
     'layout' => 'layouts.app',
 
     /*
@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'asset_url' => null,
+    'asset_url' => 'https://http://lexartlabs.herokuapp.com/',
 
     /*
     |--------------------------------------------------------------------------
