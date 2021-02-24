@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'asset_url' => 'https://lexartlabs.herokuapp.com/public',
+    'asset_url' => url('/'),
 
     /*
     |--------------------------------------------------------------------------
