@@ -57,6 +57,6 @@ volumes:
   dbdata:
 
 networks:
-    my-network:
+    app-network:
         aliases:
             - app
