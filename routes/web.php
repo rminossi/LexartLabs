@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', SearchPage::class);
+Route::post('/', SearchPage::class);

@@ -5,6 +5,7 @@
                     <h4>Filtrar Produtos</h4><span class="ml-2">{{count($products)}} itens</span>
                 </div>
                 <form method="POST" wire:submit.prevent="search">
+                    @csrf
                     <div class="d-flex flex-row align-items-center filters">
                         <div class="form-group col-8">
                             <label for="description">Nome do Produto</label>
