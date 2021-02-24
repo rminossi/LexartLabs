@@ -21,8 +21,12 @@ services:
       dockerfile: web.dockerfile
     volumes:
       - ./storage/logs/:/var/log/nginx
+      - ./conf/nginx:/etc/nginx/conf.d
+      - ..:/var/www/html
     ports:
       - 8990:80
+    depends_on:
+      - app
   
   # mysql
   database:
