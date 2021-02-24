@@ -15,6 +15,7 @@ services:
 
   # nginx
   web:
+    tty: true
     container_name: nginx_server
     build:
       context: ./
@@ -25,6 +26,8 @@ services:
       - ..:/var/www/html
     ports:
       - 8990:80
+    links:
+    - app
     depends_on:
       - app
   
